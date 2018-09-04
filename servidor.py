@@ -12,7 +12,7 @@ class http(BaseHTTPRequestHandler):
                 self.send_response(200)
                 self.send_header('Content-type','text/html')
                 self.end_headers()
-                self.wfile.write(f.read())
+                self.wfile.write(f.read().encode())
                 f.close()
                 return
 
@@ -51,6 +51,7 @@ class http(BaseHTTPRequestHandler):
 
 def main(NameVirtualHost):
     try:
+        NameVirtualHost = str(NameVirtualHost)
         virtualhost = str.split(NameVirtualHost, ":")
         if virtualhost[0] == "*":
             virtualhost[0] = ""
@@ -69,8 +70,8 @@ if __name__ == '__main__':
     DocumentRoot = "%s/htdocs/" % os.path.realpath(os.path.dirname(__file__))
     PORT = "8000"
     HOST = "localhost"
-
     try :
-        main(sys.argv[1])
+        temp = str(sys.argv[1])
+        main(temp)
     except :
         main("%s:%s" % (HOST,PORT))
